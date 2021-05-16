@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\Debugbar\Facade as Debugbar;
 use App\Services\ReportService;
 
 class ReportController extends Controller
@@ -22,6 +23,8 @@ class ReportController extends Controller
             $data["report"] = $report["data"];
             $report_simplifies_version = $this->reportService->report_simplifies_version();//Zadanie 1 – SQL
             $data["report_simplifies_version"] = $report_simplifies_version["data"];
+
+            Debugbar::info($data);
 
             return view('report', ["data" => $data]);
         } catch (\Exception $e){
