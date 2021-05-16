@@ -70,6 +70,10 @@ class ReportService
                     $installation->penalty = $penalty["data"];
                     unset($installation->city_id);
 
+//                    if ($installation->installation_date == null){
+//                        $installation->installation_date = "null";
+//                    }
+
                     $penalty_for_exceeding_the_deadline = 0;
                     $possible_penalty_for_exceeding_the_deadline = $installation->cost * $installation->penalty["penalty"]/100;
 
@@ -100,20 +104,20 @@ class ReportService
      * Zadanie 1 – SQL
      *
      * SELECT installations.*, customer_name, cities.name,
-     *   (CASE
-     *   WHEN installations.segment = 'A' THEN 90
-     *   WHEN installations.segment = 'B' THEN 60
-     *   WHEN installations.segment = 'C' THEN 30
-     *   END) AS days_to_install,
-     *   (CASE
-     *   WHEN installations.segment = 'A' THEN 5
-     *   WHEN installations.segment = 'B' THEN 10
-     *   WHEN installations.segment = 'C' THEN 15
-     *   END) AS penalty,
-     *   DATEDIFF(IF(installation_date IS NOT NULL, installation_date, '2021-04-01'), order_date) as installation_time
-     *   FROM `installations`
-     *   LEFT JOIN customers ON installations.customer_id = customers.id
-     *   LEFT JOIN cities ON installations.city_id = cities.id
+        (CASE
+        WHEN installations.segment = 'A' THEN 90
+        WHEN installations.segment = 'B' THEN 60
+        WHEN installations.segment = 'C' THEN 30
+        END) AS days_to_install,
+        (CASE
+        WHEN installations.segment = 'A' THEN 5
+        WHEN installations.segment = 'B' THEN 10
+        WHEN installations.segment = 'C' THEN 15
+        END) AS penalty,
+        DATEDIFF(IF(installation_date IS NOT NULL, installation_date, '2021-04-01'), order_date) as installation_time
+        FROM `installations`
+        LEFT JOIN customers ON installations.customer_id = customers.id
+        LEFT JOIN cities ON installations.city_id = cities.id
      */
     public function report_simplifies_version(): array
     {
